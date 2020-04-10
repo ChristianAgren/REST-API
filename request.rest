@@ -1,0 +1,12 @@
+
+
+// Get all people
+GET http://localhost:3000/api/people/
+
+###
+POST http://localhost:3000/api/people/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Christian"
+}
