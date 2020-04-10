@@ -37,14 +37,20 @@ app.get('/api/people/:id', (req, res) => {
 })
 
 app.post('/api/people', (req, res) => {
-  // console.log(req.body.name);
-  
   const person = {
     id: people.length + 1,
     name: req.body.name
   };
   people.push(person);
   res.send(people)
+})
+
+app.put('/api/people/:id', (req, res) => {
+  const person = people.find(c => c.id === parseInt(req.params.id));
+  if (!person) res.status(404).send('Could not find a person with that ID...');
+
+  person.name = req.body.name
+  res.send(person)
 })
 
 app.listen(port, () => {
