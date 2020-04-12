@@ -51,7 +51,7 @@ app.post('/api/people', (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
     const person = {
-      id: data.people.length + 1,
+      id: [...Array(5)].map(i=>(~~(Math.random()*36)).toString(36)).join(''),
       name: req.body.name
     };
     data.people.push(person);

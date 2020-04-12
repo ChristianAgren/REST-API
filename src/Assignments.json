@@ -1,0 +1,70 @@
+{
+    "people": [
+        {
+            "id": "7z9yt",
+            "name": "Helena",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today"
+                },
+                {
+                    "desc": "two",
+                    "date": "today"
+                }
+            ]
+        },
+        {
+            "id": "7epgq",
+            "name": "Helena",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today"
+                },
+                {
+                    "desc": "two",
+                    "date": "today"
+                }
+            ]
+        },
+        {
+            "id": "v2o4g",
+            "name": "Helena",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today"
+                },
+                {
+                    "desc": "two",
+                    "date": "today"
+                }
+            ]
+        },
+        {
+            "id": "zgl5u",
+            "name": "Christian",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today"
+                }
+            ]
+        },
+        {
+            "id": "n30e8",
+            "name": "Helena igen",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today"
+                },
+                {
+                    "desc": "two",
+                    "date": "today"
+                }
+            ]
+        }
+    ]
+}
