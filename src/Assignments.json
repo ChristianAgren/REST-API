@@ -6,64 +6,30 @@
             "assignments": [
                 {
                     "desc": "one",
-                    "date": "today"
+                    "date": "today",
+                    "status": "done"
                 },
                 {
                     "desc": "two",
-                    "date": "today"
-                }
-            ]
-        },
-        {
-            "id": "7epgq",
-            "name": "Helena",
-            "assignments": [
-                {
-                    "desc": "one",
-                    "date": "today"
+                    "date": "today",
+                    "status": "ongoing"
                 },
                 {
-                    "desc": "two",
-                    "date": "today"
+                    "desc": "three",
+                    "date": "today",
+                    "status": "not started"
                 }
             ]
         },
         {
-            "id": "v2o4g",
-            "name": "Helena",
-            "assignments": [
-                {
-                    "desc": "one",
-                    "date": "today"
-                },
-                {
-                    "desc": "two",
-                    "date": "today"
-                }
-            ]
+            "id": "532of",
+            "name": "Christian"
         },
         {
-            "id": "zgl5u",
-            "name": "Christian",
-            "assignments": [
-                {
-                    "desc": "one",
-                    "date": "today"
-                }
-            ]
-        },
-        {
-            "id": "n30e8",
+            "id": "3s1as",
             "name": "Helena igen",
             "assignments": [
-                {
-                    "desc": "one",
-                    "date": "today"
-                },
-                {
-                    "desc": "two",
-                    "date": "today"
-                }
+
             ]
         }
     ]
