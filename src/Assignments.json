@@ -1,0 +1,38 @@
+{
+    "people": [
+        {
+            "id": "7z9yt",
+            "name": "Helena",
+            "assignments": [
+                {
+                    "desc": "one",
+                    "date": "today",
+                    "status": "done"
+                },
+                {
+                    "desc": "two",
+                    "date": "today",
+                    "status": "ongoing"
+                },
+                {
+                    "desc": "three",
+                    "date": "today",
+                    "status": "not started"
+                }
+            ]
+        },
+        {
+            "id": "532of",
+            "name": "Christian"
+        },
+        {
+            "id": "3s1as",
+            "name": "Helena igen",
+            "assignments": []
+        },
+        {
+            "id": "93drn",
+            "name": "Christian igen"
+        }
+    ]
+}
