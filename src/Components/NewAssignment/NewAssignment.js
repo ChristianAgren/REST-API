@@ -48,9 +48,9 @@ function NewAssignment() {
         <>
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <List className={classes.inputWrapper} component="div">
-                    <ListItem button className={classes.nested}>
+                    <ListItem className={classes.nested}>
                         <FormControl fullWidth>
-                            <TextField id="outlined-basic" label="Add assignment" />
+                            <TextField id="outlined-basic" label="Add subtask" />
                         </FormControl>
                     </ListItem>
                 </List>
@@ -58,7 +58,7 @@ function NewAssignment() {
             {(!open) ?
                 <Button onClick={handleClick} color="default" className={classes.addAssignmentBtn}>
                     <AddCircleIcon fontSize="small" />
-                    <Typography variant="overline">Add assignment</Typography>
+                    <Typography variant="overline">Add subtask</Typography>
                 </Button>
                 :
                 <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>

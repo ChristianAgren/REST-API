@@ -42,8 +42,17 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'inherit',
         padding: 0,
     },
-    tasksSection: {
-        marginTop: '2.4rem'
+    subInfo: {
+        position: 'relative',
+        margin: theme.spacing(1, 4),
+        display: 'flex', 
+        flexDirection: 'row', 
+        justifyContent: 'space-between'
+    },
+    subTasks: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)'
     }
 }));
 
@@ -66,7 +75,7 @@ function AssigneeListGeneration() {
                 <li key={`section-${section.id}`} className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader color="primary" className={classes.listTitle}>
-                            <span>{section.name}</span>
+                            <span>{`${section.name} - ${section.desc}`}</span>
                             <IconButton
                                 aria-label="account of current user"
                                 aria-controls="menu-appbar"
@@ -95,23 +104,22 @@ function AssigneeListGeneration() {
                                 <MenuItem onClick={handleClose}>Delete</MenuItem>
                             </Menu>
                         </ListSubheader>
-                        <div
-                            style={(!section.assignments || section.assignments.length === 0) ?
-                                { margin: '.8rem 0 1.2rem 0' }
-                                : { margin: '0rem 0 0 0' }
+                        <div className={classes.subInfo}>
+                            <Typography variant="overline">{`ID: ${section.id}`}</Typography>
+                            {(section.subtasks && section.subtasks.length > 0) ?
+                                <>
+                                    <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
+                                </>
+                                : (section.subtasks) ?
+                                    <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
+                                    : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
                             }
-                        >
-                            {(section.assignments && section.assignments.length > 0) ?
-                                <Typography variant="overline">{`Tasks: ${section.assignments.length}`}</Typography>
-                                : (section.assignments) ?
-                                    <Typography variant="overline">All out of tasks!</Typography>
-                                    : <Typography variant="overline">Add some assignments...</Typography>
-                            }
+                            <Typography variant="overline">{`Added: ${section.date}`}</Typography>
                         </div>
-                        {(section.assignments) ?
+                        {(section.subtasks) ?
                             <>
                                 {
-                                    section.assignments.map(item => (
+                                    section.subtasks.map(item => (
                                         <AssignmentItem
                                             key={`item-${section.id}-${item.desc}`}
                                             item={item}

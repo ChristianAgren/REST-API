@@ -2,8 +2,10 @@
     "people": [
         {
             "id": "7z9yt",
-            "name": "Helena",
-            "assignments": [
+            "name": "Christian",
+            "desc": "Make an API",
+            "date": "today",
+            "subtasks": [
                 {
                     "desc": "one",
                     "date": "today",
@@ -22,17 +24,31 @@
             ]
         },
         {
-            "id": "532of",
-            "name": "Christian"
+            "id": "7z9yt",
+            "name": "Christian",
+            "desc": "Make an API",
+            "date": "today"
         },
         {
-            "id": "3s1as",
-            "name": "Helena igen",
-            "assignments": []
+            "id": "7z9yt",
+            "name": "Christian",
+            "desc": "Make an API",
+            "date": "today"
         },
+        {
+            "id": "7z9yt",
+            "name": "Christian",
+            "desc": "Make an API",
+            "date": "today"
+        }
+    ],
+    "assignments": [
         {
             "id": "93drn",
-            "name": "Christian igen"
+            "customer": "Christian Ågren",
+            "issue": "",
+            "status": 0,
+            "date": "today"
         }
     ]
 }
