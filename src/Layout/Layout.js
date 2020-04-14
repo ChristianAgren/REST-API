@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container, Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
-import ComponentsList from '../Components/ComponentsList/ComponentsList';
+import AssigneeListGeneration from '../Components/AssigneeListGeneration/AssigneeListGeneration';
 
 const useStyles = makeStyles((theme) => ({
     mainContainer: {
@@ -34,7 +34,7 @@ function Layout() {
                     </Grid>
                     <Grid item xs={12} md={8}>
                         <Paper className={classes.paper}>Generated list
-                            <ComponentsList />
+                            <AssigneeListGeneration />
                         </Paper>
                     </Grid>
                 </Grid>

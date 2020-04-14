@@ -15,7 +15,7 @@ POST http://localhost:3000/api/people/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Helena"
+    "name": "Christian igen"
 }
 
 ###
@@ -25,7 +25,7 @@ PUT http://localhost:3000/api/people/5 HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Helena!"
+    "name": "Helena"
 }
 
 ###

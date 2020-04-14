@@ -1,24 +1,19 @@
 import React from 'react';
 import {
     List,
-    ListItem,
-    ListItemText,
     ListSubheader,
     Typography,
     Divider,
-    ListItemSecondaryAction,
     IconButton,
-    Button,
     Menu,
-    MenuItem
+    MenuItem,
+
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { people } from '../../Assignments.json';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import DoneIcon from '@material-ui/icons/Done';
 import SettingsIcon from '@material-ui/icons/Settings';
+import AssignmentItem from '../AssignmentItem/AssignmentItem';
+import NewAssignment from '../NewAssignment/NewAssignment'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'inherit',
     },
     listTitle: {
-        display:'flex',
+        display: 'flex',
         justifyContent: 'center',
         fontSize: '1.1rem',
         '& > button': {
@@ -47,33 +42,12 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'inherit',
         padding: 0,
     },
-    inline: {
-        display: 'inline',
-    },
     tasksSection: {
         marginTop: '2.4rem'
-    },
-    addAssignmentBtn: {
-        margin: theme.spacing(0, 2, 3),
-        display: 'flex',
-        justifyContent: 'center',
-        '& .MuiTypography-overline': {
-            fontSize: '.9rem',
-            marginLeft: '.4rem',
-            color: 'rgba(0, 0, 0, 0.54)'
-        },
-        '& > span > svg': {
-            color: 'rgb(92,182,96)'
-        }
-    },
-    listItemSecondary: {
-        '& > button': {
-            margin: theme.spacing(0, 1)
-        }
     }
 }));
 
-function ComponentsList() {
+function AssigneeListGeneration() {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -138,45 +112,22 @@ function ComponentsList() {
                             <>
                                 {
                                     section.assignments.map(item => (
-                                        <ListItem key={`item-${section.id}-${item.desc}`}>
-                                            <ListItemText
-                                                primary={`${item.desc}`}
-                                                secondary={
-                                                    <React.Fragment>
-                                                        <Typography
-                                                            component="span"
-                                                            variant="overline"
-                                                            className={classes.inline}
-                                                        >
-                                                            {`${item.status} - `}
-                                                        </Typography>
-                                                        {`Added: ${item.date}`}
-                                                    </React.Fragment>}
-                                            />
-                                            <ListItemSecondaryAction className={classes.listItemSecondary}>
-                                                <IconButton edge="end" aria-label="complete">
-                                                    <DoneIcon />
-                                                </IconButton>
-                                                <IconButton edge="end" aria-label="edit">
-                                                    <EditIcon fontSize="small" />
-                                                </IconButton>
-                                                <IconButton edge="end" aria-label="delete">
-                                                    <DeleteIcon fontSize="small" />
-                                                </IconButton>
-                                            </ListItemSecondaryAction>
-                                        </ListItem>
+                                        <AssignmentItem
+                                            key={`item-${section.id}-${item.desc}`}
+                                            item={item}
+                                            id={section.id}
+                                        />
                                     ))
                                 }
                             </>
                             : null
                         }
-                        <Button color="default" className={classes.addAssignmentBtn}>
-                            <AddCircleIcon fontSize="small" />
-                            <Typography variant="overline">Add assignment</Typography>
-                        </Button>
+
+                        <NewAssignment />
+
                         <Divider
                             light
-                            style={{margin: '.2rem'}}
+                            style={{ margin: '.2rem' }}
                             component="li" />
                     </ul>
                 </li>
@@ -185,4 +136,4 @@ function ComponentsList() {
     );
 }
 
-export default ComponentsList
+export default AssigneeListGeneration
