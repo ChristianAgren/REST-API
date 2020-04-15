@@ -15,6 +15,11 @@ import DoneIcon from '@material-ui/icons/Done';
 
 
 const useStyles = makeStyles((theme) => ({
+    // '.MuiListItem-container':{
+    //     '& :hover': {
+    //         backgroundColor: 'black'
+    //     }
+    // },
     inline: {
         display: 'inline',
     },
@@ -33,7 +38,7 @@ function SubTaskItem(props) {
     }
 
     return (
-        <ListItem>
+        <ListItem button>
             {(shouldEdit) ?
                 <FormControl fullWidth>
                     <TextField id="outlined-basic" label="Change assignment" />

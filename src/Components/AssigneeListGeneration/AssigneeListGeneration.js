@@ -1,17 +1,19 @@
 import React from 'react';
 import {
-    List,
-    ListSubheader,
-    Typography,
+    Box,
     Divider,
     IconButton,
+    List,
+    ListSubheader,
     Menu,
     MenuItem,
+    Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import SettingsIcon from '@material-ui/icons/Settings';
 import SubTaskItem from '../SubTaskItem/SubTaskItem';
 import NewSubTask from '../NewSubTask/NewSubTask'
+import EditAssignment from '../EditAssignment/EditAssignment'
 
 const useStyles = makeStyles((theme) => ({
     removeScrollbar: {
@@ -38,6 +40,12 @@ const useStyles = makeStyles((theme) => ({
             color: 'rgba(0, 0, 0, 0.26)'
         }
     },
+    editAssignment: {
+        margin: theme.spacing(1, 6),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
     ul: {
         display: 'flex',
         flexDirection: 'column',
@@ -46,10 +54,13 @@ const useStyles = makeStyles((theme) => ({
     },
     subInfo: {
         position: 'relative',
-        margin: theme.spacing(1, 4),
+        margin: theme.spacing(1, 5),
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
     },
     subTasks: {
         position: 'absolute',
@@ -61,35 +72,38 @@ const useStyles = makeStyles((theme) => ({
 function AssigneeListGeneration(props) {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [shouldEdit, setShouldEdit] = React.useState(false)
     const open = Boolean(anchorEl);
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
+    const handleEdit = () => {
+        setShouldEdit(!shouldEdit)
+    }
+
     const handleClose = (event) => {
         if (event.currentTarget.id === 'delete') {
             props.removeAssignment(anchorEl.id)
+            setAnchorEl(null);
         } else if (event.currentTarget.id === 'edit') {
-            console.log(anchorEl.id, 'edit');
+            handleEdit()
+        } else {
+            setAnchorEl(null);
         }
-        setAnchorEl(null);
     };
 
-    // async function deleteAssignment(url, target) {
-    //     // Default options are marked with *
-    //     const response = await fetch(url + target, {
-    //         method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
-    //     });
-    //     return response.json(); // parses JSON response into native JavaScript objects
-    // }
+    const openEdit = () => {
+        const editSection = getAssignment()
+        return (
+            <EditAssignment handleEdit={handleEdit} open={shouldEdit} section={editSection} />
+        )
+    }
 
-    // const deleteAssignmentFromJson = (target) => {
-    //     deleteAssignment('http://localhost:3000/api/assignments/', target)
-    //         .then((data) => {
-    //             console.log(data); // JSON data parsed by `response.json()` call
-    //         });
-    // }
+    const getAssignment = () => { 
+        return props.assignments.find(i => i.id === anchorEl.id)
+    }
 
     return (
         <div className={classes.removeScrollbar}>
@@ -101,11 +115,10 @@ function AssigneeListGeneration(props) {
                         <li key={`section-${section.id}`} className={classes.listSection}>
                             <ul className={classes.ul}>
                                 <ListSubheader color="primary" className={classes.listTitle}>
-                                    <span>{`${section.id} - ${section.desc}`}</span>
+                                    <span>{`${section.desc}`}</span>
                                     <IconButton
                                         id={section.id}
-                                        aria-label="account of current user"
-                                        aria-controls="menu-appbar"
+                                        aria-controls="menu"
                                         aria-haspopup="true"
                                         onClick={(event) => handleMenu(event)}
                                         color="inherit"
@@ -128,11 +141,17 @@ function AssigneeListGeneration(props) {
                                         onClose={handleClose}
                                     >
                                         <MenuItem id="edit" onClick={(event) => handleClose(event)}>Edit</MenuItem>
+                                        {
+                                            (shouldEdit) ? openEdit() : null
+                                        }
                                         <MenuItem id="delete" onClick={(event) => handleClose(event)}>Delete</MenuItem>
                                     </Menu>
                                 </ListSubheader>
-                                <div className={classes.subInfo}>
-                                    <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
+                                <Box className={classes.subInfo}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                        <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
+                                        <Typography variant="overline">{`ID: ${section.id}`}</Typography>
+                                    </div>
                                     {(section.subtasks && section.subtasks.length > 0) ?
                                         <>
                                             <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
@@ -142,7 +161,7 @@ function AssigneeListGeneration(props) {
                                             : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
                                     }
                                     <Typography variant="overline">{`Added: ${section.date}`}</Typography>
-                                </div>
+                                </Box>
                                 {(section.subtasks) ?
                                     <>
                                         {
