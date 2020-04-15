@@ -10,7 +10,7 @@ import {
 
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { people } from '../../Assignments.json';
+import { assignments } from '../../Assignments.json';
 import SettingsIcon from '@material-ui/icons/Settings';
 import AssignmentItem from '../AssignmentItem/AssignmentItem';
 import NewAssignment from '../NewAssignment/NewAssignment'
@@ -71,7 +71,7 @@ function AssigneeListGeneration() {
 
     return (
         <List className={classes.root} subheader={<li />}>
-            {people.map(section => (
+            {assignments.map(section => (
                 <li key={`section-${section.id}`} className={classes.listSection}>
                     <ul className={classes.ul}>
                         <ListSubheader color="primary" className={classes.listTitle}>

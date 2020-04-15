@@ -1,11 +1,10 @@
 const express = require('express');
-const fs = require('fs')
-const bodyParser = require('body-parser')
+const fs = require('fs');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 8080;
 
-app.use(express.json())
+app.use(express.json());
 // app.use(express.static(path.join(__dirname, 'build')));
 
 
@@ -18,10 +17,10 @@ app.get('/', (req, res) => {
 
 
 // If GET to /api/people, send entire Assignments.people
-app.get('/api/people', (req, res) => {
+app.get('/api/assignments', (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
-    return res.send(data.people);
+    return res.send(data.assignments);
   } catch (err) {
     console.error(err);
     return res.send("Error when fetching Assignments");
@@ -30,13 +29,13 @@ app.get('/api/people', (req, res) => {
 
 
 
-// If GET to /api/people/:id, send specific person
-app.get('/api/people/:id', (req, res) => {
+// If GET, send specific assignment
+app.get('/api/assignments/:id', (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
-    const person = data.people.find(c => c.id === parseInt(req.params.id));
-    if (!person) return res.status(404).send("Could not find a person with that ID...");
-    return res.send(person);
+    const assignment = data.assignments.find(c => c.id === req.params.id);
+    if (!assignment) return res.status(404).send("Could not find an assignment with that ID...");
+    return res.send(assignment);
   } catch (err) {
     console.error(err);
     return res.send("Error when fetching Assignments")
@@ -46,17 +45,19 @@ app.get('/api/people/:id', (req, res) => {
 
 
 
-// If POST to /api/people, post specific person to Assignments.people
-app.post('/api/people', (req, res) => {
+// If POST, post specific assigment to assignments
+app.post('/api/assignments', (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
-    const person = {
+    const newAssignment = {
       id: [...Array(5)].map(i=>(~~(Math.random()*36)).toString(36)).join(''),
-      name: req.body.name
+      name: req.body.name,
+      desc: req.body.desc,
+      date: "today"
     };
-    data.people.push(person);
+    data.assignments.push(newAssignment);
     fs.writeFileSync('./Assignments.json', JSON.stringify(data, null, 4));
-    return res.send(person)
+    return res.send(newAssignment)
   } catch (err) {
     console.error(err)
     return res.send("Error when fetching Assignments")
@@ -65,17 +66,16 @@ app.post('/api/people', (req, res) => {
 
 
  
-// If PUT to /api/people/:id, change attributes of person in that position
-app.put('/api/people/:id', (req, res) => {
+// If PUT, change attributes of assignment in that position
+app.put('/api/assignments/:id', (req, res) => {
 
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
-    const person = data.people.find(c => c.id === parseInt(req.params.id));
-    // const personIndex = data.people.findIndex(c => c.id === parseInt(req.params.id));
-    if (!person) return res.status(404).send("Could not find a person with that ID...");
-    person.name = req.body.name;
+    const assignment = data.assignments.find(c => c.id === req.params.id);
+    if (!assignment) return res.status(404).send("Could not find an assignment with that ID...");
+    assignment.name = req.body.name;
     fs.writeFileSync('./Assignments.json', JSON.stringify(data, null, 4));
-    return res.send(person)
+    return res.send(assignment)
   } catch (err) {
     console.error(err)
     res.send("Error when fetching Assignments")
@@ -84,17 +84,16 @@ app.put('/api/people/:id', (req, res) => {
 })
 
 
-// If DELETE to /api/people/:id, delete person of that ID
-app.delete('/api/people/:id', (req, res) => {
-
+// If DELETE, delete assignment of that ID
+app.delete('/api/assignments/:id', (req, res) => {
   try {
     const data = JSON.parse(fs.readFileSync('./Assignments.json'));
-    const personIndex = data.people.findIndex(c => c.id === parseInt(req.params.id));
-    if (personIndex === -1) return res.status(404).send("Could not find a person with that ID...");
-    data.people.splice(personIndex, 1)
-    console.log(data.people);
+    const assignmentIndex = data.assignments.findIndex(c => c.id === req.params.id);
+    
+    if (assignmentIndex === -1) return res.status(404).send("Could not find an assignment with that ID...");
+    data.assignments.splice(assignmentIndex, 1)
     fs.writeFileSync('./Assignments.json', JSON.stringify(data, null, 4));
-    return res.send(data.people)
+    return res.send(data.assignments)
   } catch (err) {
     console.error(err)
     res.send("Error when fetching Assignments")

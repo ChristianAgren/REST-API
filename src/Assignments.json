@@ -1,8 +1,8 @@
 {
-    "people": [
+    "assignments": [
         {
             "id": "7z9yt",
-            "name": "Christian",
+            "name": "Helena",
             "desc": "Make an API",
             "date": "today",
             "subtasks": [
@@ -24,30 +24,15 @@
             ]
         },
         {
-            "id": "7z9yt",
+            "id": "7z9yp",
             "name": "Christian",
             "desc": "Make an API",
             "date": "today"
         },
         {
-            "id": "7z9yt",
-            "name": "Christian",
-            "desc": "Make an API",
-            "date": "today"
-        },
-        {
-            "id": "7z9yt",
-            "name": "Christian",
-            "desc": "Make an API",
-            "date": "today"
-        }
-    ],
-    "assignments": [
-        {
-            "id": "93drn",
-            "customer": "Christian Ågren",
-            "issue": "",
-            "status": 0,
+            "id": "qvvbp",
+            "name": "Christian igen",
+            "desc": "Testing server functionality",
             "date": "today"
         }
     ]
