@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function AddSection() {
+function AddSection(props) {
     const classes = useStyles()
     const [inputValues, setInputValues] = useState({
         name: '',
@@ -58,24 +58,23 @@ function AddSection() {
         })
     }
 
-    async function postData(url, data) {
-        // Default options are marked with *
-        const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        });
-        return response.json(); // parses JSON response into native JavaScript objects
-    }
+    // async function postAssignmentToJson(url, data) {
+    //     const response = await fetch(url, {
+    //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(data) // body data type must match "Content-Type" header
+    //     });
+    //     return response.json(); // parses JSON response into native JavaScript objects
+    // }
 
-    const handleSaveClick = () => {
-        postData('http://localhost:3000/api/assignments/', inputValues)
-            .then((data) => {
-                console.log(data); // JSON data parsed by `response.json()` call
-            });
-    }
+    // const handleSaveClick = () => {
+    //     postAssignmentToJson('http://localhost:3000/api/assignments/', inputValues)
+    //         .then((data) => {
+    //             console.log(data); // JSON data parsed by `response.json()` call
+    //         });
+    // }
 
     return (
         <div className={classes.newAssignmentWrapper}>
@@ -112,7 +111,7 @@ function AddSection() {
                     color="default"
                     className={classes.assignmentBtn}
                     disabled={!(inputValues.desc.length >= 3) ? true : false}
-                    onClick={handleSaveClick}
+                    onClick={() => props.handleSaveClick(inputValues)}
                 >
                     <SaveIcon fontSize="small" />
                     <Typography variant="overline">Save</Typography>

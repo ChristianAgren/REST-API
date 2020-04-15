@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import AssigneeListGeneration from '../Components/AssigneeListGeneration/AssigneeListGeneration';
@@ -23,6 +23,65 @@ const useStyles = makeStyles((theme) => ({
 
 function Layout() {
     const classes = useStyles()
+    const [assignments, setAssignments] = React.useState(null)
+
+    useEffect(() => {
+        getAssignmentsFromJson()
+    }, [])
+
+    //Get assignments
+
+    async function getAssignment(url, target) {
+        const response = await fetch((target) ? url + target : url, {
+            method: 'GET'
+        });
+        return response.json();
+    }
+
+    const getAssignmentsFromJson = (target) => {
+        getAssignment('http://localhost:3000/api/assignments/', target)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    //Post assignment
+
+    async function postAssignment(url, data) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    //Delete assignment
+
+    async function deleteAssignment(url, target) {
+        const response = await fetch(url + target, {
+            method: 'DELETE', 
+        });
+        return response.json();
+    }
+
+    const deleteAssignmentFromJson = (target) => {
+        deleteAssignment('http://localhost:3000/api/assignments/', target)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    const handleSaveClick = (inputValues) => {
+        console.log(inputValues);
+        
+        postAssignment('http://localhost:3000/api/assignments/', inputValues)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
 
     return (
         <div className={classes.mainContainer}>
@@ -33,7 +92,7 @@ function Layout() {
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4}>
                         <Paper className={classes.paper}>New assignment
-                            <AddSection />
+                            <AddSection handleSaveClick={handleSaveClick} />
                         </Paper>
                     </Grid>
                     <Grid item xs={12} md={8}>
@@ -42,8 +101,11 @@ function Layout() {
                                 <FilterSection />
                             </Grid>
                             <Grid item xs={12} md={12}>
-                                <Paper className={classes.paper}>Assignments
-                                <AssigneeListGeneration />
+                                <Paper style={{marginBottom: '2rem'}} className={classes.paper}>Assignments
+                                <AssigneeListGeneration 
+                                    removeAssignment={deleteAssignmentFromJson} 
+                                    assignments={assignments} 
+                                />
                                 </Paper>
                             </Grid>
                         </Grid>

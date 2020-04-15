@@ -57,7 +57,7 @@ app.post('/api/assignments', (req, res) => {
     };
     data.assignments.push(newAssignment);
     fs.writeFileSync('./Assignments.json', JSON.stringify(data, null, 4));
-    return res.send(newAssignment)
+    return res.send(data.assignments)
   } catch (err) {
     console.error(err)
     return res.send("Error when fetching Assignments")
