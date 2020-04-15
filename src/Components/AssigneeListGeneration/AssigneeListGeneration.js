@@ -21,9 +21,10 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden'
     },
     root: {
-        width: 'calc(100% + 17px)',
+        width: 'calc(100% + 18px)',
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
+        left: '-9px',
         overflowY: 'scroll',
         maxHeight: 'calc(100vh - 18rem)',
     },
