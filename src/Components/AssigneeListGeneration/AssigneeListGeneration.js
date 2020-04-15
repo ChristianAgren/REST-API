@@ -12,12 +12,16 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { assignments } from '../../Assignments.json';
 import SettingsIcon from '@material-ui/icons/Settings';
-import AssignmentItem from '../AssignmentItem/AssignmentItem';
-import NewAssignment from '../NewAssignment/NewAssignment'
+import SubTaskItem from '../SubTaskItem/SubTaskItem';
+import NewSubTask from '../NewSubTask/NewSubTask'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    removeScrollbar: {
         width: '100%',
+        overflowX: 'hidden'
+    },
+    root: {
+        width: 'calc(100% + 17px)',
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
         overflow: 'auto',
@@ -70,77 +74,79 @@ function AssigneeListGeneration() {
     };
 
     return (
-        <List className={classes.root} subheader={<li />}>
-            {assignments.map(section => (
-                <li key={`section-${section.id}`} className={classes.listSection}>
-                    <ul className={classes.ul}>
-                        <ListSubheader color="primary" className={classes.listTitle}>
-                            <span>{`${section.name} - ${section.desc}`}</span>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <SettingsIcon edge="end" />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose}>Delete</MenuItem>
-                            </Menu>
-                        </ListSubheader>
-                        <div className={classes.subInfo}>
-                            <Typography variant="overline">{`ID: ${section.id}`}</Typography>
-                            {(section.subtasks && section.subtasks.length > 0) ?
-                                <>
-                                    <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
-                                </>
-                                : (section.subtasks) ?
-                                    <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
-                                    : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
-                            }
-                            <Typography variant="overline">{`Added: ${section.date}`}</Typography>
-                        </div>
-                        {(section.subtasks) ?
-                            <>
-                                {
-                                    section.subtasks.map(item => (
-                                        <AssignmentItem
-                                            key={`item-${section.id}-${item.desc}`}
-                                            item={item}
-                                            id={section.id}
-                                        />
-                                    ))
+        <div className={classes.removeScrollbar}>
+            <List className={classes.root} subheader={<li />}>
+                {assignments.map(section => (
+                    <li key={`section-${section.id}`} className={classes.listSection}>
+                        <ul className={classes.ul}>
+                            <ListSubheader color="primary" className={classes.listTitle}>
+                                <span>{`${section.id} - ${section.desc}`}</span>
+                                <IconButton
+                                    aria-label="account of current user"
+                                    aria-controls="menu-appbar"
+                                    aria-haspopup="true"
+                                    onClick={handleMenu}
+                                    color="inherit"
+                                >
+                                    <SettingsIcon edge="end" />
+                                </IconButton>
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorEl}
+                                    anchorOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'right',
+                                    }}
+                                    open={open}
+                                    onClose={handleClose}
+                                >
+                                    <MenuItem onClick={handleClose}>Edit</MenuItem>
+                                    <MenuItem onClick={handleClose}>Delete</MenuItem>
+                                </Menu>
+                            </ListSubheader>
+                            <div className={classes.subInfo}>
+                                <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
+                                {(section.subtasks && section.subtasks.length > 0) ?
+                                    <>
+                                        <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
+                                    </>
+                                    : (section.subtasks) ?
+                                        <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
+                                        : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
                                 }
-                            </>
-                            : null
-                        }
-
-                        <NewAssignment />
-
-                        <Divider
-                            light
-                            style={{ margin: '.2rem' }}
-                            component="li" />
-                    </ul>
-                </li>
-            ))}
-        </List>
+                                <Typography variant="overline">{`Added: ${section.date}`}</Typography>
+                            </div>
+                            {(section.subtasks) ?
+                                <>
+                                    {
+                                        section.subtasks.map(item => (
+                                            <SubTaskItem
+                                                key={`item-${section.id}-${item.desc}`}
+                                                item={item}
+                                                id={section.id}
+                                            />
+                                        ))
+                                    }
+                                </>
+                                : null
+                            }
+    
+                            <NewSubTask />
+    
+                            <Divider
+                                light
+                                style={{ margin: '.2rem' }}
+                                component="li" />
+                        </ul>
+                    </li>
+                ))}
+            </List>
+        </div>
     );
 }
 

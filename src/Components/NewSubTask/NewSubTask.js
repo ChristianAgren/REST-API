@@ -2,7 +2,6 @@ import React from 'react';
 import {
     List,
     ListItem,
-    ListItemIcon,
     TextField,
     makeStyles,
     Collapse,
@@ -10,7 +9,6 @@ import {
     Typography,
     FormControl,
 } from '@material-ui/core';
-import FiberManualRecordIcon from '@material-ui/icons/FiberManualRecord';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -38,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-function NewAssignment() {
+function NewSubTask() {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
     const handleClick = () => {
@@ -62,13 +60,13 @@ function NewAssignment() {
                 </Button>
                 :
                 <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    <Button color="default" className={classes.addAssignmentBtn}>
-                        <SaveIcon fontSize="small" />
-                        <Typography variant="overline">Save</Typography>
-                    </Button>
                     <Button onClick={handleClick} color="default" className={classes.addAssignmentBtn}>
                         <CancelIcon fontSize="small" style={{ color: 'rgb(245,84,72)' }} />
                         <Typography variant="overline">Close</Typography>
+                    </Button>
+                    <Button color="default" className={classes.addAssignmentBtn}>
+                        <SaveIcon fontSize="small" />
+                        <Typography variant="overline">Save</Typography>
                     </Button>
                 </div>
             }
@@ -76,4 +74,4 @@ function NewAssignment() {
     )
 }
 
-export default NewAssignment;
+export default NewSubTask;

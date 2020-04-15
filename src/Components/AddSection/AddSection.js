@@ -1,0 +1,125 @@
+import React, { useState } from 'react'
+import {
+    makeStyles,
+    TextField,
+    FormControl,
+    Button,
+    Typography
+} from '@material-ui/core'
+import CancelIcon from '@material-ui/icons/Cancel';
+import SaveIcon from '@material-ui/icons/Save';
+
+const useStyles = makeStyles((theme) => ({
+    newAssignmentWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center'
+    },
+    inputWrapper: {
+        '& .MuiTextField-root': {
+            margin: theme.spacing(2, 1)
+        }
+    },
+    newAssignmentBtnWrapper: {
+        display: 'flex',
+        justifyContent: 'space-evenly'
+    },
+    assignmentBtn: {
+        margin: theme.spacing(0, 2, 3),
+        display: 'flex',
+        justifyContent: 'center',
+        '& .MuiTypography-overline': {
+            fontSize: '.9rem',
+            marginLeft: '.4rem',
+            color: 'rgba(0, 0, 0, 0.54)'
+        },
+        color: 'rgb(92,182,96)'
+    },
+}))
+
+function AddSection() {
+    const classes = useStyles()
+    const [inputValues, setInputValues] = useState({
+        name: '',
+        desc: ''
+    })
+
+    const handleInputChange = (event, anchor) => {
+        setInputValues({
+            ...inputValues,
+            [anchor]: event.target.value
+        })
+    }
+
+    const handleClearClick = () => {
+        setInputValues({
+            name: '',
+            desc: ''
+        })
+    }
+
+    async function postData(url, data) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    const handleSaveClick = () => {
+        postData('http://localhost:3000/api/assignments/', inputValues)
+            .then((data) => {
+                console.log(data); // JSON data parsed by `response.json()` call
+            });
+    }
+
+    return (
+        <div className={classes.newAssignmentWrapper}>
+            <FormControl className={classes.inputWrapper} fullWidth>
+                <TextField
+                    required
+                    id="outlined-assignee"
+                    label="Assignee"
+                    value={inputValues.name}
+                    variant="outlined"
+                    helperText="Who will perform the assignment?"
+                    onChange={(event) => handleInputChange(event, 'name')}
+                />
+                <TextField
+                    required
+                    id="outlined-assignmentDesc"
+                    label="Assignment description"
+                    value={inputValues.desc}
+                    variant="outlined"
+                    helperText="Keep it short and sweet"
+                    onChange={(event) => handleInputChange(event, 'desc')}
+                />
+            </FormControl>
+            <div className={classes.newAssignmentBtnWrapper}>
+                <Button
+                    color="default"
+                    className={classes.assignmentBtn}
+                    onClick={handleClearClick}
+                >
+                    <CancelIcon fontSize="small" style={{ color: 'rgb(245,84,72)' }} />
+                    <Typography variant="overline">Clear</Typography>
+                </Button>
+                <Button
+                    color="default"
+                    className={classes.assignmentBtn}
+                    disabled={!(inputValues.desc.length >= 3) ? true : false}
+                    onClick={handleSaveClick}
+                >
+                    <SaveIcon fontSize="small" />
+                    <Typography variant="overline">Save</Typography>
+                </Button>
+            </div>
+        </div>
+    )
+}
+
+export default AddSection

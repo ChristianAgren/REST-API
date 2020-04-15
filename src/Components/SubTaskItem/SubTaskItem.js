@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function AssignmentItem(props) {
+function SubTaskItem(props) {
     const classes = useStyles()
     const [shouldEdit, setShouldEdit] = React.useState(false)
     const handleEditClick = () => {
@@ -77,4 +77,4 @@ function AssignmentItem(props) {
     )
 }
 
-export default AssignmentItem
+export default SubTaskItem
