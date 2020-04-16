@@ -2,7 +2,7 @@
     "assignments": [
         {
             "id": "7z9yt",
-            "name": "Helena",
+            "name": "Christian",
             "desc": "Make an API",
             "date": "today",
             "subtasks": [
@@ -22,6 +22,12 @@
                     "status": "not started"
                 }
             ]
+        },
+        {
+            "id": "854ve",
+            "name": "David",
+            "desc": "Hjälpa Christian",
+            "date": "today"
         }
     ]
 }

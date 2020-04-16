@@ -21,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
         overflowX: 'hidden'
     },
     root: {
-        width: 'calc(100% + 18px)',
+        width: 'calc(100% + 36px)',
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
-        left: '-9px',
+        left: '-18px',
         overflowY: 'scroll',
         maxHeight: 'calc(100vh - 18rem)',
     },
@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'inherit',
     },
     listTitle: {
-        display: 'flex',
-        justifyContent: 'center',
         fontSize: '1.1rem',
         '& > button': {
             position: 'absolute',
@@ -102,91 +100,95 @@ function AssigneeListGeneration(props) {
         )
     }
 
-    const getAssignment = () => { 
+    const getAssignment = () => {
         return props.assignments.find(i => i.id === anchorEl.id)
     }
 
     return (
         <div className={classes.removeScrollbar}>
             <List className={classes.root} subheader={<li />}>
-                {(props.assignments === null || props.assignments === undefined) ?
-                    <h1>Loading</h1>
-                    :
-                    props.assignments.map(section => (
-                        <li key={`section-${section.id}`} className={classes.listSection}>
-                            <ul className={classes.ul}>
-                                <ListSubheader color="primary" className={classes.listTitle}>
-                                    <span>{`${section.desc}`}</span>
-                                    <IconButton
-                                        id={section.id}
-                                        aria-controls="menu"
-                                        aria-haspopup="true"
-                                        onClick={(event) => handleMenu(event)}
-                                        color="inherit"
-                                    >
-                                        <SettingsIcon edge="end" />
-                                    </IconButton>
-                                    <Menu
-                                        id={`Menu-${section.id}`}
-                                        anchorEl={anchorEl}
-                                        anchorOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        keepMounted
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'right',
-                                        }}
-                                        open={open}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem id="edit" onClick={(event) => handleClose(event)}>Edit</MenuItem>
-                                        {
-                                            (shouldEdit) ? openEdit() : null
+                {(props.assignments === null) ?
+                    <h3>Loading</h3>
+                    : (props.assignments === undefined) ?
+                        <h3>Something went wrong, try reloading the page</h3>
+                        : (props.assignments.error) ?
+                            <h3>{props.assignments.error.message}</h3>
+                            :
+                            props.assignments.map(section => (
+                                <li key={`section-${section.id}`} className={classes.listSection}>
+                                    <ul className={classes.ul}>
+                                        <ListSubheader color="primary" className={classes.listTitle}>
+                                            <span>{`${section.desc}`}</span>
+                                            <IconButton
+                                                id={section.id}
+                                                aria-controls="menu"
+                                                aria-haspopup="true"
+                                                onClick={(event) => handleMenu(event)}
+                                                color="inherit"
+                                            >
+                                                <SettingsIcon edge="end" />
+                                            </IconButton>
+                                            <Menu
+                                                id={`Menu-${section.id}`}
+                                                anchorEl={anchorEl}
+                                                anchorOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right',
+                                                }}
+                                                keepMounted
+                                                transformOrigin={{
+                                                    vertical: 'top',
+                                                    horizontal: 'right',
+                                                }}
+                                                open={open}
+                                                onClose={handleClose}
+                                            >
+                                                <MenuItem id="edit" onClick={(event) => handleClose(event)}>Edit</MenuItem>
+                                                {
+                                                    (shouldEdit) ? openEdit() : null
+                                                }
+                                                <MenuItem id="delete" onClick={(event) => handleClose(event)}>Delete</MenuItem>
+                                            </Menu>
+                                        </ListSubheader>
+                                        <Box className={classes.subInfo}>
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
+                                                <Typography variant="overline">{`ID: ${section.id}`}</Typography>
+                                            </div>
+                                            {(section.subtasks && section.subtasks.length > 0) ?
+                                                <>
+                                                    <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
+                                                </>
+                                                : (section.subtasks) ?
+                                                    <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
+                                                    : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
+                                            }
+                                            <Typography variant="overline">{`Added: ${section.date}`}</Typography>
+                                        </Box>
+                                        {(section.subtasks) ?
+                                            <>
+                                                {
+                                                    section.subtasks.map(item => (
+                                                        <SubTaskItem
+                                                            key={`item-${section.id}-${item.desc}`}
+                                                            item={item}
+                                                            id={section.id}
+                                                        />
+                                                    ))
+                                                }
+                                            </>
+                                            : null
                                         }
-                                        <MenuItem id="delete" onClick={(event) => handleClose(event)}>Delete</MenuItem>
-                                    </Menu>
-                                </ListSubheader>
-                                <Box className={classes.subInfo}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                                        <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
-                                        <Typography variant="overline">{`ID: ${section.id}`}</Typography>
-                                    </div>
-                                    {(section.subtasks && section.subtasks.length > 0) ?
-                                        <>
-                                            <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
-                                        </>
-                                        : (section.subtasks) ?
-                                            <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
-                                            : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
-                                    }
-                                    <Typography variant="overline">{`Added: ${section.date}`}</Typography>
-                                </Box>
-                                {(section.subtasks) ?
-                                    <>
-                                        {
-                                            section.subtasks.map(item => (
-                                                <SubTaskItem
-                                                    key={`item-${section.id}-${item.desc}`}
-                                                    item={item}
-                                                    id={section.id}
-                                                />
-                                            ))
-                                        }
-                                    </>
-                                    : null
-                                }
 
-                                <NewSubTask />
+                                        <NewSubTask />
 
-                                <Divider
-                                    light
-                                    style={{ margin: '.2rem' }}
-                                    component="li" />
-                            </ul>
-                        </li>
-                    ))}
+                                        <Divider
+                                            light
+                                            style={{ margin: '.2rem' }}
+                                            component="li" />
+                                    </ul>
+                                </li>
+                            ))}
             </List>
         </div>
     );

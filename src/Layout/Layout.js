@@ -39,8 +39,12 @@ function Layout() {
     }
 
     const getAssignmentsFromJson = (target) => {
+        if (target) {
+            target = target.toLowerCase()
+        }
         getAssignment('http://localhost:3000/api/assignments/', target)
             .then((data) => {
+                console.log(data);
                 setAssignments(data)
             });
     }
@@ -62,7 +66,7 @@ function Layout() {
 
     async function deleteAssignment(url, target) {
         const response = await fetch(url + target, {
-            method: 'DELETE', 
+            method: 'DELETE',
         });
         return response.json();
     }
@@ -76,7 +80,7 @@ function Layout() {
 
     const handleSaveClick = (inputValues) => {
         console.log(inputValues);
-        
+
         postAssignment('http://localhost:3000/api/assignments/', inputValues)
             .then((data) => {
                 setAssignments(data)
@@ -98,14 +102,20 @@ function Layout() {
                     <Grid item xs={12} md={8}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={12}>
-                                <FilterSection />
+                                <FilterSection
+                                    handleSearch={getAssignmentsFromJson}
+                                />
                             </Grid>
                             <Grid item xs={12} md={12}>
-                                <Paper style={{marginBottom: '2rem'}} className={classes.paper}>Assignments
-                                <AssigneeListGeneration 
-                                    removeAssignment={deleteAssignmentFromJson} 
-                                    assignments={assignments} 
-                                />
+                                <Paper style={{ marginBottom: '2rem' }} className={classes.paper}>
+                                    {(assignments != null) ?
+                                        `Assignments${(assignments.length != undefined) ? `: ${assignments.length}` : ``}`
+                                        : null
+                                    }
+                                    <AssigneeListGeneration
+                                        removeAssignment={deleteAssignmentFromJson}
+                                        assignments={assignments}
+                                    />
                                 </Paper>
                             </Grid>
                         </Grid>

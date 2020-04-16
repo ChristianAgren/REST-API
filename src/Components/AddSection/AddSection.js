@@ -57,25 +57,7 @@ function AddSection(props) {
             desc: ''
         })
     }
-
-    // async function postAssignmentToJson(url, data) {
-    //     const response = await fetch(url, {
-    //         method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify(data) // body data type must match "Content-Type" header
-    //     });
-    //     return response.json(); // parses JSON response into native JavaScript objects
-    // }
-
-    // const handleSaveClick = () => {
-    //     postAssignmentToJson('http://localhost:3000/api/assignments/', inputValues)
-    //         .then((data) => {
-    //             console.log(data); // JSON data parsed by `response.json()` call
-    //         });
-    // }
-
+    
     return (
         <div className={classes.newAssignmentWrapper}>
             <FormControl className={classes.inputWrapper} fullWidth>

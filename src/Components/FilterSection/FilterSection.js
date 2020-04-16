@@ -58,8 +58,13 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function FilterSection() {
+function FilterSection(props) {
     const classes = useStyles()
+    const [searchInput, setSearchInput] = React.useState('')
+
+    const handleInputChange = (event) => {
+        setSearchInput(event.target.value)   
+    }
 
     return (
         <div className={classes.searchBar}>
@@ -73,10 +78,11 @@ function FilterSection() {
                         root: classes.inputRoot,
                         input: classes.inputInput,
                     }}
+                    onChange={(event) => handleInputChange(event)}
                     inputProps={{ 'aria-label': 'search' }}
                 />
             </div>
-            <IconButton className={classes.searchIcon} edge="end" aria-label="complete">
+            <IconButton onClick={() => props.handleSearch(searchInput)} className={classes.searchIcon} edge="end" aria-label="complete">
                 <SearchIcon fontSize="small" />
             </IconButton>
             {/* <div className={classes.searchIcon}>

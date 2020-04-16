@@ -15,13 +15,9 @@ import DoneIcon from '@material-ui/icons/Done';
 
 
 const useStyles = makeStyles((theme) => ({
-    // '.MuiListItem-container':{
-    //     '& :hover': {
-    //         backgroundColor: 'black'
-    //     }
-    // },
     inline: {
-        display: 'inline',
+        // display: 'inline',
+        padding: theme.spacing(0, 0, 0, 3)
     },
     listItemSecondary: {
         '& > button': {
@@ -45,18 +41,22 @@ function SubTaskItem(props) {
                 </FormControl>
                 :
                 <ListItemText
-                    primary={`${props.item.desc}`}
+                    primary={
+                        <Typography
+                            component="h4"
+                            className={classes.inline}
+                        >
+                            {props.item.desc}
+                        </Typography>
+                    }
                     secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="overline"
-                                className={classes.inline}
-                            >
-                                {`${props.item.status} - `}
-                            </Typography>
-                            {`Added: ${props.item.date}`}
-                        </React.Fragment>}
+                        <Typography
+                            component="span"
+                            variant="overline"
+                            className={classes.inline}
+                        >
+                            {`${props.item.status}`}
+                        </Typography>}
                 />
             }
             <ListItemSecondaryAction className={classes.listItemSecondary}>
