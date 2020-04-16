@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Typography, Paper, Grid } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles';
 import AssigneeListGeneration from '../Components/AssigneeListGeneration/AssigneeListGeneration';
+import FilterSection from '../Components/FilterSection/FilterSection'
+import AddSection from '../Components/AddSection/AddSection';
 
 const useStyles = makeStyles((theme) => ({
     mainContainer: {
@@ -21,6 +23,92 @@ const useStyles = makeStyles((theme) => ({
 
 function Layout() {
     const classes = useStyles()
+    const [assignments, setAssignments] = React.useState(null)
+
+    useEffect(() => {
+        getAssignmentsFromJson()
+    }, [])
+
+    //Get assignments
+
+    async function getAssignment(url, target) {
+        const response = await fetch((target) ? url + target : url, {
+            method: 'GET'
+        });
+        return response.json();
+    }
+
+    const getAssignmentsFromJson = (target) => {
+        if (typeof target === 'string') {
+            target = target.toLowerCase()
+            getAssignment('http://localhost:3000/api/assignments/', target)
+                .then((data) => {
+                    console.log(data);
+                    setAssignments(data)
+                });
+        } else {
+            getAssignment('http://localhost:3000/api/assignments/')
+                .then((data) => {
+                    console.log(data);
+                    setAssignments(data)
+                });
+        }
+    }
+
+    //Post assignment
+
+    async function postAssignment(url, data) {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    const handleSaveClick = (inputValues) => {
+        postAssignment('http://localhost:3000/api/assignments/', inputValues)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    //Delete assignment
+
+    async function deleteAssignment(url, target) {
+        const response = await fetch(url + target, {
+            method: 'DELETE',
+        });
+        return response.json();
+    }
+
+    const deleteAssignmentFromJson = (target) => {
+        deleteAssignment('http://localhost:3000/api/assignments/', target)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    async function editAssignment(url, target, data) {
+        const response = await fetch(url + target, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        return response.json();
+    }
+
+    const handleEditSave = (target, inputValues) => {
+        editAssignment('http://localhost:3000/api/assignments/', target, inputValues)
+            .then((data) => {
+                setAssignments(data)
+            })
+    }
+
 
     return (
         <div className={classes.mainContainer}>
@@ -30,12 +118,31 @@ function Layout() {
                     </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={4}>
-                        <Paper className={classes.paper}>Filter/info</Paper>
+                        <Paper className={classes.paper}>New assignment
+                            <AddSection handleSaveClick={handleSaveClick} />
+                        </Paper>
                     </Grid>
                     <Grid item xs={12} md={8}>
-                        <Paper className={classes.paper}>Generated list
-                            <AssigneeListGeneration />
-                        </Paper>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} md={12}>
+                                <FilterSection
+                                    handleSearch={getAssignmentsFromJson}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={12}>
+                                <Paper style={{ marginBottom: '2rem' }} className={classes.paper}>
+                                    {(assignments != null) ?
+                                        `Assignments${(assignments.length != undefined) ? `: ${assignments.length}` : ``}`
+                                        : null
+                                    }
+                                    <AssigneeListGeneration
+                                        editAssignment={handleEditSave}
+                                        removeAssignment={deleteAssignmentFromJson}
+                                        assignments={assignments}
+                                    />
+                                </Paper>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Container>

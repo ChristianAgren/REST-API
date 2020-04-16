@@ -16,7 +16,8 @@ import DoneIcon from '@material-ui/icons/Done';
 
 const useStyles = makeStyles((theme) => ({
     inline: {
-        display: 'inline',
+        // display: 'inline',
+        padding: theme.spacing(0, 0, 0, 3)
     },
     listItemSecondary: {
         '& > button': {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }))
 
-function AssignmentItem(props) {
+function SubTaskItem(props) {
     const classes = useStyles()
     const [shouldEdit, setShouldEdit] = React.useState(false)
     const handleEditClick = () => {
@@ -33,25 +34,29 @@ function AssignmentItem(props) {
     }
 
     return (
-        <ListItem>
+        <ListItem button>
             {(shouldEdit) ?
                 <FormControl fullWidth>
                     <TextField id="outlined-basic" label="Change assignment" />
                 </FormControl>
                 :
                 <ListItemText
-                    primary={`${props.item.desc}`}
+                    primary={
+                        <Typography
+                            component="h4"
+                            className={classes.inline}
+                        >
+                            {props.item.desc}
+                        </Typography>
+                    }
                     secondary={
-                        <React.Fragment>
-                            <Typography
-                                component="span"
-                                variant="overline"
-                                className={classes.inline}
-                            >
-                                {`${props.item.status} - `}
-                            </Typography>
-                            {`Added: ${props.item.date}`}
-                        </React.Fragment>}
+                        <Typography
+                            component="span"
+                            variant="overline"
+                            className={classes.inline}
+                        >
+                            {`${props.item.status}`}
+                        </Typography>}
                 />
             }
             <ListItemSecondaryAction className={classes.listItemSecondary}>
@@ -77,4 +82,4 @@ function AssignmentItem(props) {
     )
 }
 
-export default AssignmentItem
+export default SubTaskItem

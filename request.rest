@@ -1,27 +1,28 @@
 
 
-// Get all people
-GET http://localhost:3000/api/people/
+// Get all assignments
+GET http://localhost:3000/api/assignments/
 
 ###
 
-// Get specific person
-GET http://localhost:3000/api/people/1
+// Get specific assignment
+GET http://localhost:3000/api/assignments/7z9yt
 
 ###
 
-// Post new object
-POST http://localhost:3000/api/people/ HTTP/1.1
+// Post new assignment
+POST http://localhost:3000/api/assignments/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Christian igen"
+    "name": "Christian igen",
+    "desc": "Testing server functionality"
 }
 
 ###
 
-// Change object
-PUT http://localhost:3000/api/people/5 HTTP/1.1
+// Change assignment
+PUT http://localhost:3000/api/assignments/7z9yt HTTP/1.1
 Content-Type: application/json
 
 {
@@ -30,5 +31,5 @@ Content-Type: application/json
 
 ###
 
-//Delete specific person
-DELETE http://localhost:3000/api/people/1
+//Delete specific assignment
+DELETE http://localhost:3000/api/assignments/7z9yq

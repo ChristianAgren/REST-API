@@ -1,34 +1,46 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
-    List,
-    ListSubheader,
-    Typography,
+    Box,
     Divider,
     IconButton,
+    List,
+    ListSubheader,
     Menu,
     MenuItem,
-
+    Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { people } from '../../Assignments.json';
+import SadSmiley from '../../Assets/sadsmiley.svg'
 import SettingsIcon from '@material-ui/icons/Settings';
-import AssignmentItem from '../AssignmentItem/AssignmentItem';
-import NewAssignment from '../NewAssignment/NewAssignment'
+import SubTaskItem from '../SubTaskItem/SubTaskItem';
+import NewSubTask from '../NewSubTask/NewSubTask'
+import EditAssignment from '../EditAssignment/EditAssignment'
+import DateManager from '../DateManager/DateManager.js'
 
 const useStyles = makeStyles((theme) => ({
-    root: {
+    removeScrollbar: {
         width: '100%',
+        overflowX: 'hidden'
+    },
+    error: {
+        width: '100%',
+        margin: '3rem 0 3rem 0',
+        display: 'flex',
+        flexDirection: 'column'
+    },
+    root: {
+        width: 'calc(100% + 34px)',
         backgroundColor: theme.palette.background.paper,
         position: 'relative',
-        overflow: 'auto',
-        maxHeight: 'calc(100vh - 15rem)',
+        left: '50%',
+        transform: 'translateX(calc(-50% + 8px))',
+        overflowY: 'scroll',
+        maxHeight: 'calc(100vh - 18rem)',
     },
     listSection: {
         backgroundColor: 'inherit',
     },
     listTitle: {
-        display: 'flex',
-        justifyContent: 'center',
         fontSize: '1.1rem',
         '& > button': {
             position: 'absolute',
@@ -36,103 +48,182 @@ const useStyles = makeStyles((theme) => ({
             color: 'rgba(0, 0, 0, 0.26)'
         }
     },
+    editAssignment: {
+        margin: theme.spacing(1, 6),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    },
     ul: {
         display: 'flex',
         flexDirection: 'column',
         backgroundColor: 'inherit',
         padding: 0,
     },
-    tasksSection: {
-        marginTop: '2.4rem'
+    subInfo: {
+        position: 'relative',
+        margin: theme.spacing(1, 5),
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('xs')]: {
+            display: 'none'
+        }
+    },
+    subTasks: {
+        position: 'absolute',
+        left: '50%',
+        transform: 'translateX(-50%)'
     }
 }));
 
-function AssigneeListGeneration() {
+function AssigneeListGeneration(props) {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [shouldEdit, setShouldEdit] = React.useState(false)
+    const [editSection, setEditSection] = React.useState(null)
     const open = Boolean(anchorEl);
 
-    const handleMenu = event => {
+    const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleEdit = () => {
+        const editThis = getAssignment()
+        if (editThis) {
+            setEditSection(editThis)
+        } else {
+            setEditSection(null)
+        }
+        setShouldEdit(!shouldEdit)
+    }
+
+    const handleClose = (event) => {
+        if (event.currentTarget.id === 'delete') {
+            props.removeAssignment(anchorEl.id)
+        } else if (event.currentTarget.id === 'edit') {
+            handleEdit()
+        } 
         setAnchorEl(null);
     };
 
+    const getAssignment = () => {
+        if (anchorEl != null) {
+            return props.assignments.find(i => i.id === anchorEl.id)
+        } else {
+            return undefined
+        }
+    }
+
+    const manageDate = (date) => {
+        const currentDate = DateManager()
+        if (date === currentDate) {
+            return "Today"
+        } else {
+            return date
+        }
+    }
+
+    useEffect(() => {
+        manageDate()
+    })
+
     return (
-        <List className={classes.root} subheader={<li />}>
-            {people.map(section => (
-                <li key={`section-${section.id}`} className={classes.listSection}>
-                    <ul className={classes.ul}>
-                        <ListSubheader color="primary" className={classes.listTitle}>
-                            <span>{section.name}</span>
-                            <IconButton
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleMenu}
-                                color="inherit"
-                            >
-                                <SettingsIcon edge="end" />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorEl}
-                                anchorOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'right',
-                                }}
-                                open={open}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={handleClose}>Edit</MenuItem>
-                                <MenuItem onClick={handleClose}>Delete</MenuItem>
-                            </Menu>
-                        </ListSubheader>
-                        <div
-                            style={(!section.assignments || section.assignments.length === 0) ?
-                                { margin: '.8rem 0 1.2rem 0' }
-                                : { margin: '0rem 0 0 0' }
-                            }
-                        >
-                            {(section.assignments && section.assignments.length > 0) ?
-                                <Typography variant="overline">{`Tasks: ${section.assignments.length}`}</Typography>
-                                : (section.assignments) ?
-                                    <Typography variant="overline">All out of tasks!</Typography>
-                                    : <Typography variant="overline">Add some assignments...</Typography>
-                            }
-                        </div>
-                        {(section.assignments) ?
-                            <>
-                                {
-                                    section.assignments.map(item => (
-                                        <AssignmentItem
-                                            key={`item-${section.id}-${item.desc}`}
-                                            item={item}
-                                            id={section.id}
-                                        />
-                                    ))
-                                }
-                            </>
-                            : null
-                        }
+        <div className={classes.removeScrollbar}>
+            <List className={classes.root} subheader={<li />}>
+                {(props.assignments === null) ?
+                    <h3>Loading</h3>
+                    : (props.assignments === undefined) ?
+                        <h3>Something went wrong, try reloading the page</h3>
+                        : (props.assignments.error) ?
+                            <div className={classes.error}>
+                                <h3>{props.assignments.error.message}</h3>
+                                <img src={SadSmiley}></img>
+                            </div>
+                            : (props.assignments.length === 0) ?
+                                <div style={{margin: '4rem'}}>
+                                    <h4>Seems like there's nothing here...</h4>
+                                    <h2>Good job!</h2>
+                                </div>
+                                : props.assignments.map(section => (
+                                    <li key={`section-${section.id}`} className={classes.listSection}>
+                                        <ul className={classes.ul}>
+                                            <ListSubheader color="primary" className={classes.listTitle}>
+                                                <span>{`${section.desc}`}</span>
+                                                <IconButton
+                                                    id={section.id}
+                                                    aria-controls="menu"
+                                                    aria-haspopup="true"
+                                                    onClick={(event) => handleMenu(event)}
+                                                    color="inherit"
+                                                >
+                                                    <SettingsIcon edge="end" />
+                                                </IconButton>
+                                                <Menu
+                                                    id={`Menu-${section.id}`}
+                                                    anchorEl={anchorEl}
+                                                    anchorOrigin={{
+                                                        vertical: 'top',
+                                                        horizontal: 'right',
+                                                    }}
+                                                    keepMounted
+                                                    transformOrigin={{
+                                                        vertical: 'top',
+                                                        horizontal: 'right',
+                                                    }}
+                                                    open={open}
+                                                    onClose={handleClose}
+                                                >
+                                                    <MenuItem id="edit" onClick={(event) => handleClose(event)}>Edit</MenuItem>
+                                                    {
+                                                        (shouldEdit) ?
+                                                        <EditAssignment handleEditClose={handleEdit} handleEditSave={props.editAssignment} open={shouldEdit} section={editSection} />
+                                                        : null
+                                                    }
+                                                    <MenuItem id="delete" onClick={(event) => handleClose(event)}>Delete</MenuItem>
+                                                </Menu>
+                                            </ListSubheader>
+                                            <Box className={classes.subInfo}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                                    <Typography variant="overline">{`Assignee: ${section.name}`}</Typography>
+                                                    <Typography variant="overline">{`ID: ${section.id}`}</Typography>
+                                                </div>
+                                                {(section.subtasks && section.subtasks.length > 0) ?
+                                                    <>
+                                                        <Typography className={classes.subTasks} variant="overline">{`Subtasks: ${section.subtasks.length}`}</Typography>
+                                                    </>
+                                                    : (section.subtasks) ?
+                                                        <Typography className={classes.subTasks} variant="overline">All out of subtasks!</Typography>
+                                                        : <Typography className={classes.subTasks} variant="overline">Add some subtasks...</Typography>
+                                                }
+                                                <Typography variant="overline">{`Added: ${manageDate(section.date)}`}</Typography>
+                                            </Box>
+                                            {(section.subtasks) ?
+                                                <>
+                                                    {
+                                                        section.subtasks.map(item => (
+                                                            <SubTaskItem
+                                                                key={`item-${section.id}-${item.desc}`}
+                                                                item={item}
+                                                                id={section.id}
+                                                            />
+                                                        ))
+                                                    }
+                                                </>
+                                                : null
+                                            }
 
-                        <NewAssignment />
+                                            <NewSubTask />
 
-                        <Divider
-                            light
-                            style={{ margin: '.2rem' }}
-                            component="li" />
-                    </ul>
-                </li>
-            ))}
-        </List>
+                                            <Divider
+                                                light
+                                                style={{ margin: '.2rem' }}
+                                                component="li" />
+                                        </ul>
+                                    </li>
+                                ))}
+            </List>
+        </div>
     );
 }
 

@@ -1,0 +1,16 @@
+{
+    "assignments": [
+        {
+            "id": "foc18",
+            "name": "Christian",
+            "desc": "Testing",
+            "date": "2020-04-16"
+        },
+        {
+            "id": "l0qf8",
+            "name": "Christian",
+            "desc": "Make an awesome API!",
+            "date": "2020-04-13"
+        }
+    ]
+}
