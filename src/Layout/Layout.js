@@ -39,14 +39,20 @@ function Layout() {
     }
 
     const getAssignmentsFromJson = (target) => {
-        if (target) {
+        if (typeof target === 'string') {
             target = target.toLowerCase()
+            getAssignment('http://localhost:3000/api/assignments/', target)
+                .then((data) => {
+                    console.log(data);
+                    setAssignments(data)
+                });
+        } else {
+            getAssignment('http://localhost:3000/api/assignments/')
+                .then((data) => {
+                    console.log(data);
+                    setAssignments(data)
+                });
         }
-        getAssignment('http://localhost:3000/api/assignments/', target)
-            .then((data) => {
-                console.log(data);
-                setAssignments(data)
-            });
     }
 
     //Post assignment
@@ -60,6 +66,13 @@ function Layout() {
             body: JSON.stringify(data)
         });
         return response.json();
+    }
+
+    const handleSaveClick = (inputValues) => {
+        postAssignment('http://localhost:3000/api/assignments/', inputValues)
+            .then((data) => {
+                setAssignments(data)
+            });
     }
 
     //Delete assignment
@@ -78,14 +91,24 @@ function Layout() {
             });
     }
 
-    const handleSaveClick = (inputValues) => {
-        console.log(inputValues);
+    async function editAssignment(url, target, data) {
+        const response = await fetch(url + target, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        return response.json();
+    }
 
-        postAssignment('http://localhost:3000/api/assignments/', inputValues)
+    const handleEditSave = (target, inputValues) => {
+        editAssignment('http://localhost:3000/api/assignments/', target, inputValues)
             .then((data) => {
                 setAssignments(data)
-            });
+            })
     }
+
 
     return (
         <div className={classes.mainContainer}>
@@ -113,6 +136,7 @@ function Layout() {
                                         : null
                                     }
                                     <AssigneeListGeneration
+                                        editAssignment={handleEditSave}
                                         removeAssignment={deleteAssignmentFromJson}
                                         assignments={assignments}
                                     />

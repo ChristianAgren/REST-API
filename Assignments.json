@@ -1,33 +1,16 @@
 {
     "assignments": [
         {
-            "id": "7z9yt",
+            "id": "foc18",
             "name": "Christian",
-            "desc": "Make an API",
-            "date": "today",
-            "subtasks": [
-                {
-                    "desc": "one",
-                    "date": "today",
-                    "status": "done"
-                },
-                {
-                    "desc": "two",
-                    "date": "today",
-                    "status": "ongoing"
-                },
-                {
-                    "desc": "three",
-                    "date": "today",
-                    "status": "not started"
-                }
-            ]
+            "desc": "Testing",
+            "date": "2020-04-16"
         },
         {
-            "id": "854ve",
-            "name": "David",
-            "desc": "Hjälpa Christian",
-            "date": "today"
+            "id": "l0qf8",
+            "name": "Christian",
+            "desc": "Make an awesome API!",
+            "date": "2020-04-13"
         }
     ]
 }

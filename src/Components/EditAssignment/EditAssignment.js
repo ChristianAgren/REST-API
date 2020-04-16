@@ -36,14 +36,28 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: '.4rem',
             color: 'rgba(0, 0, 0, 0.54)'
         },
-        '& > span > svg': {
-            color: 'rgb(92,182,96)'
-        }
+        color: 'rgb(92,182,96)'
     },
 }))
 
 function EditAssignment(props) {
     const classes = useStyles()
+    const [inputValues, setInputValues] = React.useState({
+        desc: props.section.desc,
+        name: props.section.name
+    })
+
+    const shouldSaveEdit = () => {
+        props.handleEditSave(props.section.id, inputValues)
+        props.handleEditClose()
+    }
+
+    const handleInputChange = (event, anchor) => {
+        setInputValues({
+            ...inputValues,
+            [anchor]: event.target.value
+        })
+    }
 
     return (
         <Modal
@@ -68,15 +82,32 @@ function EditAssignment(props) {
                         : null
                     }
                     <FormControl fullWidth>
-                        <TextField style={{ margin: '1rem 0' }} label="New description" />
-                        <TextField style={{ margin: '1rem 0' }} label="New assignee" />
+                        <TextField 
+                            onChange={(event) => handleInputChange(event, 'desc')}
+                            style={{ margin: '1rem 0' }} 
+                            value={inputValues.desc} 
+                            />
+                        <TextField 
+                            onChange={(event) => handleInputChange(event, 'name')}
+                            style={{ margin: '1rem 0' }} 
+                            value={inputValues.name} 
+                        />
                     </FormControl>
                     <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                        <Button onClick={props.handleEdit} color="default" className={classes.addAssignmentBtn}>
+                        <Button 
+                            onClick={props.handleEditClose} 
+                            color="default" 
+                            className={classes.addAssignmentBtn}
+                        >
                             <CancelIcon fontSize="small" style={{ color: 'rgb(245,84,72)' }} />
                             <Typography variant="overline">Close</Typography>
                         </Button>
-                        <Button color="default" className={classes.addAssignmentBtn}>
+                        <Button 
+                            onClick={() => shouldSaveEdit()}
+                            color="default" 
+                            className={classes.addAssignmentBtn}
+                            disabled={(inputValues.name.length < 2) || (inputValues.desc.length < 4)}
+                        >
                             <SaveIcon fontSize="small" />
                             <Typography variant="overline">Save</Typography>
                         </Button>
