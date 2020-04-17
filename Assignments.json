@@ -1,21 +1,32 @@
 {
     "assignments": [
         {
-            "id": "up7nu",
-            "name": "Filip",
-            "desc": "Komplettera Javascript 2 ",
-            "date": "2020-04-17",
-            "subtasks": []
-        },
-        {
-            "id": "ldcp4",
+            "id": "wx3ys",
             "name": "Christian",
-            "desc": "Visa filip",
+            "desc": "Chilla",
             "date": "2020-04-17",
             "subtasks": [
                 {
-                    "desc": "Nej!",
-                    "subId": "bpp",
+                    "desc": "Träna på mid?",
+                    "subId": "hvb",
+                    "status": "ongoing"
+                }
+            ]
+        },
+        {
+            "id": "up7nu",
+            "name": "Filip",
+            "desc": "Komplettera Javascript 2 ",
+            "date": "2020-04-14",
+            "subtasks": [
+                {
+                    "desc": "Kom igen nu Filip",
+                    "subId": "n9f",
+                    "status": "done"
+                },
+                {
+                    "desc": "Delegera till Fredrik",
+                    "subId": "w6j",
                     "status": "ongoing"
                 }
             ]
