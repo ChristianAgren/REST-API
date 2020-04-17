@@ -30,15 +30,28 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: '.4rem',
             color: 'rgba(0, 0, 0, 0.54)'
         },
-        '& > span > svg': {
-            color: 'rgb(92,182,96)'
-        }
+        color: 'rgb(92,182,96)'
     },
 }))
 
-function NewSubTask() {
+function NewSubTask(props) {
     const classes = useStyles()
     const [open, setOpen] = React.useState(false)
+    const [inputValue, setInputValue] = React.useState({
+        desc: ''
+    })
+
+    const handleInputChange = (event) => {
+        setInputValue({
+            desc: event.target.value
+        })
+    }
+
+    const handleSubTaskSave = () => {
+        props.subTasksSave(props.sectionId, inputValue)
+        handleClick()
+    }
+
     const handleClick = () => {
         setOpen(!open)
     }
@@ -48,7 +61,12 @@ function NewSubTask() {
                 <List className={classes.inputWrapper} component="div">
                     <ListItem className={classes.nested}>
                         <FormControl fullWidth>
-                            <TextField id="outlined-basic" label="Add subtask" />
+                            <TextField 
+                                id="outlined-basic" 
+                                label="Add subtask" 
+                                value={inputValue.desc}
+                                onChange={(event) => handleInputChange(event)}
+                            />
                         </FormControl>
                     </ListItem>
                 </List>
@@ -60,11 +78,20 @@ function NewSubTask() {
                 </Button>
                 :
                 <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                    <Button onClick={handleClick} color="default" className={classes.addAssignmentBtn}>
+                    <Button 
+                        onClick={handleClick} 
+                        color="default" 
+                        className={classes.addAssignmentBtn}
+                    >
                         <CancelIcon fontSize="small" style={{ color: 'rgb(245,84,72)' }} />
                         <Typography variant="overline">Close</Typography>
                     </Button>
-                    <Button color="default" className={classes.addAssignmentBtn}>
+                    <Button 
+                        onClick={handleSubTaskSave}
+                        color="default" 
+                        className={classes.addAssignmentBtn}
+                        disabled={inputValue.desc < 3}
+                    >
                         <SaveIcon fontSize="small" />
                         <Typography variant="overline">Save</Typography>
                     </Button>

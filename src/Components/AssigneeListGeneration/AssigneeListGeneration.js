@@ -203,9 +203,12 @@ function AssigneeListGeneration(props) {
                                                     {
                                                         section.subtasks.map(item => (
                                                             <SubTaskItem
-                                                                key={`item-${section.id}-${item.desc}`}
+                                                                key={item.subId}
+                                                                section={section.id}
                                                                 item={item}
-                                                                id={section.id}
+                                                                id={item.subId}
+                                                                subTasksDel={props.subTasksDel}
+                                                                subTasksEdit={props.subTasksEdit}
                                                             />
                                                         ))
                                                     }
@@ -213,7 +216,10 @@ function AssigneeListGeneration(props) {
                                                 : null
                                             }
 
-                                            <NewSubTask />
+                                            <NewSubTask 
+                                                sectionId={section.id}
+                                                subTasksSave={props.subTasksSave}
+                                            />
 
                                             <Divider
                                                 light

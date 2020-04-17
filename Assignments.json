@@ -1,16 +1,24 @@
 {
     "assignments": [
         {
-            "id": "foc18",
-            "name": "Christian",
-            "desc": "Testing",
-            "date": "2020-04-16"
+            "id": "up7nu",
+            "name": "Filip",
+            "desc": "Komplettera Javascript 2 ",
+            "date": "2020-04-17",
+            "subtasks": []
         },
         {
-            "id": "l0qf8",
+            "id": "ldcp4",
             "name": "Christian",
-            "desc": "Make an awesome API!",
-            "date": "2020-04-13"
+            "desc": "Visa filip",
+            "date": "2020-04-17",
+            "subtasks": [
+                {
+                    "desc": "Nej!",
+                    "subId": "bpp",
+                    "status": "ongoing"
+                }
+            ]
         }
     ]
 }

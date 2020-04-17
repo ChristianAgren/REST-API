@@ -24,13 +24,13 @@ const useStyles = makeStyles((theme) => ({
 function Layout() {
     const classes = useStyles()
     const [assignments, setAssignments] = React.useState(null)
+    const apiURL = 'http://localhost:3000/api/assignments/'
 
     useEffect(() => {
         getAssignmentsFromJson()
     }, [])
 
     //Get assignments
-
     async function getAssignment(url, target) {
         const response = await fetch((target) ? url + target : url, {
             method: 'GET'
@@ -41,13 +41,13 @@ function Layout() {
     const getAssignmentsFromJson = (target) => {
         if (typeof target === 'string') {
             target = target.toLowerCase()
-            getAssignment('http://localhost:3000/api/assignments/', target)
+            getAssignment(apiURL, target)
                 .then((data) => {
                     console.log(data);
                     setAssignments(data)
                 });
         } else {
-            getAssignment('http://localhost:3000/api/assignments/')
+            getAssignment(apiURL)
                 .then((data) => {
                     console.log(data);
                     setAssignments(data)
@@ -56,7 +56,6 @@ function Layout() {
     }
 
     //Post assignment
-
     async function postAssignment(url, data) {
         const response = await fetch(url, {
             method: 'POST',
@@ -69,14 +68,32 @@ function Layout() {
     }
 
     const handleSaveClick = (inputValues) => {
-        postAssignment('http://localhost:3000/api/assignments/', inputValues)
+        postAssignment(apiURL, inputValues)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    //Post subtask to assignment
+    async function postSubTask(url, target, data) {
+        const response = await fetch(url + target, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        return response.json();
+    }
+
+    const handleSubTaskSave = (target, inputValues) => {
+        postSubTask(apiURL, target, inputValues)
             .then((data) => {
                 setAssignments(data)
             });
     }
 
     //Delete assignment
-
     async function deleteAssignment(url, target) {
         const response = await fetch(url + target, {
             method: 'DELETE',
@@ -85,12 +102,28 @@ function Layout() {
     }
 
     const deleteAssignmentFromJson = (target) => {
-        deleteAssignment('http://localhost:3000/api/assignments/', target)
+        deleteAssignment(apiURL, target)
             .then((data) => {
                 setAssignments(data)
             });
     }
 
+    //Delete subtask from assignment
+    async function deleteSubTask(url, target, subTarget) {
+        const response = await fetch(`${url+target}/${subTarget}`, {
+            method: 'DELETE',
+        });
+        return response.json();
+    }
+
+    const handleSubTaskDelete = (target, subTarget) => {
+        deleteSubTask(apiURL, target, subTarget)
+            .then((data) => {
+                setAssignments(data)
+            });
+    }
+
+    // Edit assignment
     async function editAssignment(url, target, data) {
         const response = await fetch(url + target, {
             method: 'PUT',
@@ -103,7 +136,28 @@ function Layout() {
     }
 
     const handleEditSave = (target, inputValues) => {
-        editAssignment('http://localhost:3000/api/assignments/', target, inputValues)
+        editAssignment(apiURL, target, inputValues)
+            .then((data) => {
+                setAssignments(data)
+            })
+    }
+
+    //Edit subtask in assignment
+    async function editSubTask(url, target, subTarget, data) {
+        const response = await fetch(`${url+target}/${subTarget}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        return response.json();
+    }
+
+    const handleEditSubtaskSave = (target, subTarget, data) => {
+        // console.log(target, subTarget, data);
+        
+        editSubTask(apiURL, target, subTarget, data)
             .then((data) => {
                 setAssignments(data)
             })
@@ -139,6 +193,9 @@ function Layout() {
                                         editAssignment={handleEditSave}
                                         removeAssignment={deleteAssignmentFromJson}
                                         assignments={assignments}
+                                        subTasksSave={handleSubTaskSave}
+                                        subTasksDel={handleSubTaskDelete}
+                                        subTasksEdit={handleEditSubtaskSave}
                                     />
                                 </Paper>
                             </Grid>
