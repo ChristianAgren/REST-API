@@ -186,7 +186,7 @@ function Layout() {
                             <Grid item xs={12} md={12}>
                                 <Paper style={{ marginBottom: '2rem' }} className={classes.paper}>
                                     {(assignments != null) ?
-                                        `Assignments${(assignments.length != undefined) ? `: ${assignments.length}` : ``}`
+                                        `Assignments${(assignments.length !== undefined) ? `: ${assignments.length}` : ``}`
                                         : null
                                     }
                                     <AssigneeListGeneration

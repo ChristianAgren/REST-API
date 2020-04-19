@@ -113,7 +113,12 @@ function SubTaskItem(props) {
             }
             <ListItemSecondaryAction className={classes.listItemSecondary}>
                 {(shouldEdit) ?
-                    <IconButton onClick={handleEditClick} edge="end" aria-label="edit">
+                    <IconButton 
+                        onClick={handleEditClick} 
+                        edge="end" 
+                        aria-label="edit"
+                        disabled={inputValues.desc.length < 3}
+                    >
                         <DoneIcon />
                     </IconButton>
                     :
