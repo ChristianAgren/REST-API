@@ -10,6 +10,7 @@ The server is built using [Node.js](https://nodejs.org/en/).
 The assignment is to build a RESTful API, based on CRUD. The API may contain data of your choosing, as long as there are 4 endpoints (GET, POST, PUT, DELETE) for your resource. The datapoints must have 4 attributes, where one of them is *id*.
 
 I've built a simple, highly editable, assignment list/ ToDo app.
+You can continually add new assignments and assign them, aswell as add subtasks to the assignments you've created.
 
 ## Installation
 
