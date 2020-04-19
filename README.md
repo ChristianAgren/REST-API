@@ -1,13 +1,38 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#Assignment REST-API
 
-## Available Scripts
+Link to [github repo](https://github.com/ChristianAgren/rest-api).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app),
+and built using [Material-UI](https://material-ui.com/getting-started/installation/).
+The server is built using [Node.js](https://nodejs.org/en/).
 
-In the project directory, you can run:
+# Project description
+
+The assignment is to build a RESTful API, based on CRUD. The API may contain data of your choosing, as long as there are 4 endpoints (GET, POST, PUT, DELETE) for your resource. The datapoints must have 4 attributes, where one of them is *id*.
+
+I've built a simple, highly editable, assignment list/ ToDo app.
+
+# Installation
+
+When the project is cloned to your drive, start the project and run;
+
+### `npm i`
+
+to install dependencies.
+
+## Starting the project
+
+The following command line is used in the project directory to start the backend part of the project.
+
+### `node server.js`
+
+If you intend to run the frontend part side by side, open a new terminal window and run:
 
 ### `npm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+## Additional scripts
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
@@ -37,32 +62,23 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+# Assignment grading
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This part is only for our teacher's reference, not the actual grading of the assignment.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Passing grades:
 
-### Code Splitting
+- Project uses 4 endpoints (GET, POST, PUT & DELETE) for a resource. (Completed)
+- All endpoints can be used by a .rest file. (Completed)
+- The API data is saved locally in the server file (See below)
+- Git & GitHub is used for the project. (Completed)
+- The Project contains a README.md file. (Completed)
+- The assignment is turned in on time. (Completed)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Extra credits
 
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- All of the passing grades are completed. (Completed)
+- The API data is saved in a .JSON file instead of locally in the server file. (Completed)
+- The API data is updated when something is added, updated or removed. (Completed)
+- A simple frontend UI is built to fetch the endpoints and modify the API data, aswell as presenting the result via GET. (Completed)
+- An additional GET endpoint is added so that the user can fetch a specific data point. (Completed)
