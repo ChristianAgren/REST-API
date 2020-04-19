@@ -6,7 +6,7 @@ GET http://localhost:3000/api/assignments/
 ###
 
 // Get specific assignment
-GET http://localhost:3000/api/assignments/7z9yt
+GET http://localhost:3000/api/assignments/rek4r
 
 ###
 
@@ -21,15 +21,43 @@ Content-Type: application/json
 
 ###
 
-// Change assignment
-PUT http://localhost:3000/api/assignments/7z9yt HTTP/1.1
+// Post new subtask in assignment
+POST http://localhost:3000/api/assignments/rek4r HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Helena"
+    "desc": "addning new subtask"
 }
 
 ###
 
-//Delete specific assignment
-DELETE http://localhost:3000/api/assignments/7z9yq
+// Change assignment
+PUT http://localhost:3000/api/assignments/vobuv HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Christian",
+    "desc": "testing"
+}
+
+###
+
+// Change subtask in assignment
+PUT http://localhost:3000/api/assignments/rek4r/hd HTTP/1.1
+Content-Type: application/json
+
+{
+    "desc": "changing subtask",
+    "status": "new"
+}
+
+###
+
+//Delete assignment
+DELETE http://localhost:3000/api/assignments/foc1
+
+
+###
+
+//Delete subtask
+DELETE http://localhost:3000/api/assignments/rek4r/hdq

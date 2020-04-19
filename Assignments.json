@@ -1,16 +1,35 @@
 {
     "assignments": [
         {
-            "id": "foc18",
+            "id": "wx3ys",
             "name": "Christian",
-            "desc": "Testing",
-            "date": "2020-04-16"
+            "desc": "Dota 2",
+            "date": "2020-04-17",
+            "subtasks": [
+                {
+                    "desc": "Träna på mid?",
+                    "subId": "hvb",
+                    "status": "ongoing"
+                }
+            ]
         },
         {
-            "id": "l0qf8",
-            "name": "Christian",
-            "desc": "Make an awesome API!",
-            "date": "2020-04-13"
+            "id": "up7nu",
+            "name": "Filip",
+            "desc": "Komplettera Javascript 2 ",
+            "date": "2020-04-14",
+            "subtasks": [
+                {
+                    "desc": "Kom igen nu Filip",
+                    "subId": "n9f",
+                    "status": "done"
+                },
+                {
+                    "desc": "Delegera till Fredrik",
+                    "subId": "w6j",
+                    "status": "ongoing"
+                }
+            ]
         }
     ]
 }
