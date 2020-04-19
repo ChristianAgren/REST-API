@@ -16,7 +16,6 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
-    "whole": "npm start && npm node server.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
